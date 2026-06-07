@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Command Center</title>
+    <style>
+        body { font-family: sans-serif; background: #121214; color: #e1e1e6; padding: 20px; }
+        .card { background: #202024; padding: 20px; border-radius: 8px; max-width: 500px; margin-bottom: 20px; border: 1px solid #323238; }
+        button { background: #04d361; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #00b34d; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Freelance Command Center</h1>
+    
+    <div class="card">
+        <h3>System Metrics</h3>
+        <p>Base Market Currency: <strong>USD ($)</strong></p>
+        <p>Live Local Exchange Rate: <span id="rate-display">Click to sync live network rate...</span></p>
+        <button id="sync-btn">Sync Exchange Engine</button>
+    </div>
+
+    <div class="card">
+        <h3>Lead Intake Terminal</h3>
+        <form id="lead-form">
+            <div style="margin-bottom: 10px;">
+                <label>Client Name:</label><br>
+                <input type="text" id="client-name" required placeholder="e.g., Apex Automations">
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label>Project Type:</label><br>
+                <input type="text" id="project-type" required placeholder="e.g., AI Chatbot">
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label>Budget (USD):</label><br>
+                <input type="number" id="client-budget" required placeholder="e.g., 2000">
+            </div>
+            <button type="submit">Process & Add Lead</button>
+        </form>
+    </div>
+
+    <div class="card" id="output-box" style="display: none;">
+        <h3>📊 Lead Evaluation Results</h3>
+        <p>Client Name: <span id="res-name" style="color: #04d361; font-weight: bold;"></span></p>
+        <p>Project Domain: <span id="res-project"></span></p>
+        <p>Live Valuation: <span id="res-valuation" style="font-weight: bold;"></span></p>
+        <div id="res-status" style="padding: 10px; border-radius: 4px; font-weight: bold; margin-top: 10px;"></div>
+    </div>
+
+    <div class="card" style="max-width: 600px;">
+        <h3>📋 Stored Leads Database Vault</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 2px solid #323238; color: #04d361;">
+                    <th style="padding: 8px;">Client</th>
+                    <th style="padding: 8px;">Domain</th>
+                    <th style="padding: 8px;">Budget</th>
+                    <th style="padding: 8px;">Valuation (₦)</th>
+                </tr>
+            </thead>
+            <tbody id="ledger-rows">
+                </tbody>
+        </table>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
