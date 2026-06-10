@@ -9,7 +9,7 @@ let currentNairaRate = 1500;
 let savedLeads = JSON.parse(localStorage.getItem("leadsVault")) || [];
 
 // ========================================================
-// DOM ELEMENTS
+// DOM ELEMENTS HOOKS
 // ========================================================
 const syncButton = document.getElementById("sync-btn");
 const rateDisplay = document.getElementById("rate-display");
@@ -18,6 +18,7 @@ const leadForm = document.getElementById("lead-form");
 const clientNameInput = document.getElementById("client-name");
 const projectTypeInput = document.getElementById("project-type");
 const clientBudgetInput = document.getElementById("client-budget");
+const clientSpeedInput = document.getElementById("client-speed"); // New Monetization input
 
 const outputBox = document.getElementById("output-box");
 const resultName = document.getElementById("res-name");
@@ -36,7 +37,6 @@ syncButton.addEventListener("click", async function () {
         const data = await response.json();
 
         currentNairaRate = data.rates.NGN;
-
         rateDisplay.textContent = `1 USD = ₦${currentNairaRate.toFixed(2)} NGN`;
     } catch (error) {
         rateDisplay.textContent = "Failed to fetch exchange rate.";
@@ -45,7 +45,7 @@ syncButton.addEventListener("click", async function () {
 });
 
 // ========================================================
-// MODULE 2: LEAD INTAKE TERMINAL
+// MODULE 2: LEAD INTAKE & MONETIZATION TERMINAL
 // ========================================================
 leadForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -53,57 +53,54 @@ leadForm.addEventListener("submit", function (e) {
     const clientName = clientNameInput.value;
     const projectType = projectTypeInput.value;
     const clientBudget = Number(clientBudgetInput.value);
+    const clientSpeed = Number(clientSpeedInput.value);
 
-    // Calculate local valuation
+    // Calculate local valuation using active state rate
     const localValuation = clientBudget * currentNairaRate;
 
-    // Reveal results card
+    // Reveal results UI card
     outputBox.style.display = "block";
 
-    // Populate results
+    // Populate foundational metrics
     resultName.textContent = clientName;
     resultProject.textContent = projectType;
-    resultValuation.textContent =
-        "₦" + localValuation.toLocaleString();
+    resultValuation.textContent = "₦" + localValuation.toLocaleString();
 
     // ========================================================
-    // SAVE LEAD TO LOCAL STORAGE
+    // ADVANCED MONETIZATION SCORING ENGINE
+    // ========================================================
+    if (clientSpeed > 3.0 && clientBudget >= 1000) {
+        resultStatus.textContent = "⚠️ HIGH-VALUE RETENTION RISK: Client losing up to 40% traffic due to load times! Pitch custom optimized API architecture.";
+        resultStatus.style.backgroundColor = "#4a3b00"; // Alert Yellow/Orange
+        resultStatus.style.color = "#fff";
+    } else if (clientBudget >= 1000) {
+        resultStatus.textContent = "🟢 HIGH-VALUE RADAR TARGET - SPEED STABLE. INITIATE DIRECT OUTREACH FOR FEATURE EXPANSION.";
+        resultStatus.style.backgroundColor = "#0f3d20"; // Premium Green
+        resultStatus.style.color = "#fff";
+    } else {
+        resultStatus.textContent = "🔴 PASS / LOW PRIORITY - Budget tier below premium parameters.";
+        resultStatus.style.backgroundColor = "#4a1515"; // Red
+        resultStatus.style.color = "#fff";
+    }
+
+    // ========================================================
+    // SAVE ARCHIVE TO LOCAL STORAGE VAULT
     // ========================================================
     let newLead = {
         name: clientName,
         project: projectType,
         budget: clientBudget,
+        speed: clientSpeed,
         valuation: localValuation
     };
 
     savedLeads.push(newLead);
+    localStorage.setItem("leadsVault", JSON.stringify(savedLeads));
 
-    localStorage.setItem(
-        "leadsVault",
-        JSON.stringify(savedLeads)
-    );
-
+    // Refresh the historical ledger display instantly
     renderLedger();
 
-    console.log(
-        "Vault Updated! Total Leads Stored Permanently:",
-        savedLeads.length
-    );
-
-    // ========================================================
-    // LEAD SCORING
-    // ========================================================
-    if (clientBudget >= 1000) {
-        resultStatus.textContent =
-            "🟢 HIGH-VALUE RADAR TARGET - INITIATE OUTREACH IMMEDIATELY";
-        resultStatus.style.backgroundColor = "#0f3d20";
-    } else {
-        resultStatus.textContent =
-            "🔴 PASS - Low priority budget tier for this crawl.";
-        resultStatus.style.backgroundColor = "#4a1515";
-    }
-
-    // Optional: Clear form after submission
+    // Reset the input fields automatically for the next crawl loop
     leadForm.reset();
 });
 
@@ -111,25 +108,22 @@ leadForm.addEventListener("submit", function (e) {
 // MODULE 3: LEDGER RENDER ENGINE
 // ========================================================
 function renderLedger() {
-    // Clear old rows
     ledgerRows.innerHTML = "";
 
-    // Render all saved leads
     savedLeads.forEach(function (lead) {
         let rowHTML = `
             <tr style="border-bottom: 1px solid #323238;">
                 <td style="padding: 8px;">${lead.name}</td>
                 <td style="padding: 8px;">${lead.project}</td>
-                <td style="padding: 8px;">$${lead.budget.toLocaleString()}</td>
+                <td style="padding: 8px;">$${lead.budget.toLocaleString()} (at ${lead.speed}s)</td>
                 <td style="padding: 8px;">₦${lead.valuation.toLocaleString()}</td>
             </tr>
         `;
-
         ledgerRows.innerHTML += rowHTML;
     });
 }
 
 // ========================================================
-// INITIAL PAGE LOAD
+// INITIAL INITIALIZATION RUNTIME
 // ========================================================
 renderLedger();
