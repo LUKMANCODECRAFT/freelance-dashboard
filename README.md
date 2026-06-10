@@ -1,6 +1,6 @@
 # freelance-dashboard
 
-# 🚀 Freelance Command Center (v1.0)
+# Freelance Command Center (v1.0)
 
 A high-performance, data-persistent automation interface built for internal operations at **Lukman CodeCraft (LCC)**. This system acts as a live valuation engine and client optimization radar, intercepting prospects, analyzing speed bottlenecks, and calculating real-time transactional metrics using external economic financial data.
 
@@ -8,7 +8,7 @@ Live Production URL: [https://lukmancodecraft.github.io/freelance-dashboard/](ht
 
 ---
 
-## ⚡ Core Architecture & Automation Modules
+## Core Architecture & Automation Modules
 
 The platform operates as a unified data matrix split into four localized infrastructural components:
 
@@ -19,7 +19,7 @@ The platform operates as a unified data matrix split into four localized infrast
 
 ---
 
-## 🛠️ Technical Stack Metric
+## Technical Stack Metric
 
 * **Engine Core:** Vanilla JavaScript (ES6+)
 * **Storage Architecture:** LocalStorage API (JSON Serialization/Deserialization)
@@ -29,7 +29,7 @@ The platform operates as a unified data matrix split into four localized infrast
 
 ---
 
-## 📅 Deployment Log
+## Deployment Log
 
 This asset marks the successful completion of the **LCC Foundational JavaScript Sprint Block**. Built manually line-by-line under a strict execution protocol, confirming complete foundational mastery over data state memory, network integration, and application durability.
 
